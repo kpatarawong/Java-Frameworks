@@ -3,7 +3,7 @@
 # WESTERN GOVERNORS UNIVERSITY 
 ## D287 – JAVA FRAMEWORKS
 
-C.  Customize the HTML user interface for your customer’s application. The user interface should include the shop name, the product names, and the names of the parts.
+**C.  Customize the HTML user interface for your customer’s application. The user interface should include the shop name, the product names, and the names of the parts.**
 
 Line 14: Change shop name to Skateboard King
 
@@ -14,10 +14,21 @@ Line 21: Changed header for “Parts” to “Skateboard Parts”
 Line 53: Changed header for “Products” to “Skateboards”
 
 
-D.  Add an “About” page to the application to describe your chosen customer’s company to web viewers and include navigation to and from the “About” page and the main screen.
+**D.  Add an “About” page to the application to describe your chosen customer’s company to web viewers and include navigation to and from the “About” page and the main screen.**
+
+Filename: about.html
+
+Lines 1 – 34: Add about.html page with HTML styling and layout copied from mainscreen’s styling
+
+Filename: mainscreen.html
+Line 20: Add a link to the About page just below the page title
+
+Filename: MainScreenController
+
+Lines 57-58: Add controller @Getmapping to enable access to About page
 
 
-E.  Add a sample inventory appropriate for your chosen store to the application. You should have five parts and five products in your sample inventory and should not overwrite existing data in the database.
+**E.  Add a sample inventory appropriate for your chosen store to the application. You should have five parts and five products in your sample inventory and should not overwrite existing data in the database.**
 
 
 Note: Make sure the sample inventory is added only when both the part and product lists are empty. When adding the sample inventory appropriate for the store, the inventory is stored in a set so duplicate items cannot be added to your products. When duplicate items are added, make a “multi-pack” part.

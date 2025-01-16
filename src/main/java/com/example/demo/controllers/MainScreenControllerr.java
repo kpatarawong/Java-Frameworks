@@ -53,3 +53,6 @@ public class MainScreenControllerr {
         return "mainscreen";
     }
 }
+
+@GetMapping("/about")
+public String about() { return "about.html"; }

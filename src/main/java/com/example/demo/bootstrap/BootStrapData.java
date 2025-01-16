@@ -39,8 +39,25 @@ public class BootStrapData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-       /*
-        OutsourcedPart o= new OutsourcedPart();
+        /*
+        OutsourcedPart op1= new OutsourcedPart();
+        o.setCompanyName("");
+        o.setName("out test");
+        o.setInv(5);
+        o.setPrice(20.0);
+        o.setId(100L);
+        outsourcedPartRepository.save(o);
+        OutsourcedPart thePart=null;
+        List<OutsourcedPart> outsourcedParts=(List<OutsourcedPart>) outsourcedPartRepository.findAll();
+        for(OutsourcedPart part:outsourcedParts){
+            if(part.getName().equals("out test"))thePart=part;
+        }
+
+        System.out.println(thePart.getCompanyName());
+        */
+
+        /*
+        OutsourcedPart op2= new OutsourcedPart();
         o.setCompanyName("Western Governors University");
         o.setName("out test");
         o.setInv(5);
@@ -55,6 +72,58 @@ public class BootStrapData implements CommandLineRunner {
 
         System.out.println(thePart.getCompanyName());
         */
+
+        /*
+        OutsourcedPart op3= new OutsourcedPart();
+        o.setCompanyName("Western Governors University");
+        o.setName("out test");
+        o.setInv(5);
+        o.setPrice(20.0);
+        o.setId(100L);
+        outsourcedPartRepository.save(o);
+        OutsourcedPart thePart=null;
+        List<OutsourcedPart> outsourcedParts=(List<OutsourcedPart>) outsourcedPartRepository.findAll();
+        for(OutsourcedPart part:outsourcedParts){
+            if(part.getName().equals("out test"))thePart=part;
+        }
+
+        System.out.println(thePart.getCompanyName());
+        */
+
+        /*
+        OutsourcedPart op4= new OutsourcedPart();
+        o.setCompanyName("Western Governors University");
+        o.setName("out test");
+        o.setInv(5);
+        o.setPrice(20.0);
+        o.setId(100L);
+        outsourcedPartRepository.save(o);
+        OutsourcedPart thePart=null;
+        List<OutsourcedPart> outsourcedParts=(List<OutsourcedPart>) outsourcedPartRepository.findAll();
+        for(OutsourcedPart part:outsourcedParts){
+            if(part.getName().equals("out test"))thePart=part;
+        }
+
+        System.out.println(thePart.getCompanyName());
+        */
+
+        /*
+        OutsourcedPart op5= new OutsourcedPart();
+        o.setCompanyName("Western Governors University");
+        o.setName("out test");
+        o.setInv(5);
+        o.setPrice(20.0);
+        o.setId(100L);
+        outsourcedPartRepository.save(o);
+        OutsourcedPart thePart=null;
+        List<OutsourcedPart> outsourcedParts=(List<OutsourcedPart>) outsourcedPartRepository.findAll();
+        for(OutsourcedPart part:outsourcedParts){
+            if(part.getName().equals("out test"))thePart=part;
+        }
+
+        System.out.println(thePart.getCompanyName());
+        */
+
         List<OutsourcedPart> outsourcedParts=(List<OutsourcedPart>) outsourcedPartRepository.findAll();
         for(OutsourcedPart part:outsourcedParts){
             System.out.println(part.getName()+" "+part.getCompanyName());

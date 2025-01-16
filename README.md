@@ -25,7 +25,7 @@ Line 20: Add a link to the About page just below the page title
 
 Filename: MainScreenController
 
-Lines 57-58: Add controller @Getmapping to enable access to About page
+Lines 57-60: Add controller @Getmapping to enable access to About page
 
 
 **E.  Add a sample inventory appropriate for your chosen store to the application. You should have five parts and five products in your sample inventory and should not overwrite existing data in the database.**

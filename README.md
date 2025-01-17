@@ -159,8 +159,96 @@ Product dragon_board= new Product("Dragon Board",50.00,20);
         productRepository.save(dragon_board);        
 ```
 
-### F.  Add a “Buy Now” button to your product list.**
+### F.  Add a “Buy Now” button to your product list.
 
+Filename: mainscreen.html
+
+Line 85: Create Buy Now button next to Product Add and Delete
+
+`<a th:href="@{/buyProduct(productID=${tempProduct.id})}" class="btn btn-primary btn-sm mb-3">Buy Now</a>`
+
+Create 3 New Files
+
+File Path: src/main/resources/templates/confirmationbuysuccess.html Simple view with a success message.
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Confirmation</title>
+</head>
+<body>
+<h1>Your product has been successfully purchased!</h1>
+
+<a href="http://localhost:8080/">Link
+to Main Screen</a>
+</body>
+</html>
+```
+
+File Path: src/main/resources/templates/confirmationbuyfailure.html Simple view with a failure message.
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Failed</title>
+</head>
+<body>
+<h1>This product is out of stock. Check again later.</h1>
+
+<a href="http://localhost:8080/">Link
+to Main Screen</a>
+</body>
+</html>
+```
+File Path src/com.example.demo/controllers/BuyProductController Added the buyProduct method. If the inventory of the item is > 0, decrements the inventory by 1 and redirects to confirmationbuyproduct.html, otherwise, redirects to failedbuyproduct.html.
+```
+packagecom.example.demo.controllers;
+
+import com.example.demo.domain.Part;
+import com.example.demo.domain.Product;
+import com.example.demo.repositories.ProductRepository;
+import com.example.demo.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
+
+@Controller
+public class BuyProductController {
+@Autowired
+private ProductRepository productRepository;
+
+    @GetMapping("/buyProduct")
+    public String buyProduct(@RequestParam("productID") Long theId, Model theModel) {
+        Optional<Product> productToBuy = productRepository.findById(theId);
+
+        if (productToBuy.isPresent()) {    //check if product in catalog
+            Product product = productToBuy.get();
+
+            if (product.getInv() > 0) {    //check if product still in stock
+                product.setInv(product.getInv() - 1);   //decrement stock
+                productRepository.save(product);    //save to product database
+
+                return "/confirmationbuysuccess";   //successful purchase
+            } else {
+                return "/confirmationbuyfailure";   //purchase failed: out of stock
+            }
+        } else {
+            return "/confirmationbuyfailure";  //purchase failed: product not found
+        }
+    }
+}
+```
 
 ### G.  Modify the parts to track maximum and minimum inventory
 •  Add additional fields to the part entity for maximum and minimum inventory.
@@ -170,13 +258,13 @@ Product dragon_board= new Product("Dragon Board",50.00,20);
 •  Modify the code to enforce that the inventory is between or at the minimum and maximum value.
 
 
-## H.  Add validation for between or at the maximum and minimum fields. The validation must include the following:
+### H.  Add validation for between or at the maximum and minimum fields. The validation must include the following:
 •  Display error messages for low inventory when adding and updating parts if the inventory is less than the minimum number of parts.
 •  Display error messages for low inventory when adding and updating products lowers the part inventory below the minimum.
 •  Display error messages when adding and updating parts if the inventory is greater than the maximum.
 
 
-## I.  Add at least two unit tests for the maximum and minimum fields to the PartTest class in the test package.
+### I.  Add at least two unit tests for the maximum and minimum fields to the PartTest class in the test package.
 
 
-## J.  Remove the class files for any unused validators in order to clean your code.**
+### J.  Remove the class files for any unused validators in order to clean your code.**

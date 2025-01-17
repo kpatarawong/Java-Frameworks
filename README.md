@@ -8,36 +8,44 @@
 Filename: mainscreen.html
 
 Line 14: Change shop name to Skateboard King
-<title>Skateboard King</title
+
+`<title>Skateboard King</title>
+`
 
 Line 19: Changed display header to “Skateboard King”
-<h1>Skateboard King</h1>
+
+`<h1>Skateboard King</h1>`
 
 Line 21: Changed header for “Parts” to “Skateboard Parts”
-<h2>Skateboard Parts</h2>
+
+`<h2>Skateboard Parts</h2>`
 
 Line 53: Changed header for “Products” to “Skateboards”
-<h2>Skateboards</h2>
 
+`<h2>Skateboards</h2>`
 
 **D.  Add an “About” page to the application to describe your chosen customer’s company to web viewers and include navigation to and from the “About” page and the main screen.**
 
 Filename: mainscreen.html
 
 Line 20: Add a link to the About page just below the page title
-<a href="/about" style="text-decoration: none; font-weight: bold;">About</a>
+
+`<a href="/about" style="text-decoration: none; font-weight: bold;">About</a>`
 
 Filename: MainScreenController.java
 
 Lines 58-60: Add controller @Getmapping to enable access to About page
-@GetMapping("/about")
+
+`@GetMapping("/about")
 public String about() {
-return "about";
+return "about";`
 
 File name: about.html
 
 Lines 1 – 34: Add about.html page with HTML styling and layout copied from mainscreen’s styling
+
 <!DOCTYPE html>
+
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -51,6 +59,7 @@ Lines 1 – 34: Add about.html page with HTML styling and layout copied from mai
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
     <title>Skateboard King</title>
+
 </head>
 <body>
 
@@ -67,7 +76,6 @@ Lines 1 – 34: Add about.html page with HTML styling and layout copied from mai
     </p>
 
 </div>
-
 
 </body>
 </html>
@@ -103,3 +111,4 @@ I.  Add at least two unit tests for the maximum and minimum fields to the PartTe
 
 
 J.  Remove the class files for any unused validators in order to clean your code.
+`

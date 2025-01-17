@@ -84,92 +84,66 @@ Lines 1 – 34: Add about.html page with HTML styling and layout copied from mai
 
 ### E.  Add a sample inventory appropriate for your chosen store to the application. You should have five parts and five products in your sample inventory and should not overwrite existing data in the database.**
 
-Line 43 – 124: Added 5 new parts to the repository.
+Line 43 – 98: Added 5 new parts to the repository.
 ```
 @Override
     public void run(String... args) throws Exception {
-        List<OutsourcedPart> outsourcedParts = (List<OutsourcedPart>) outsourcedPartRepository.findAll();
 
+        
+        if (partRepository.count() == 0 && outsourcedPartRepository.count() == 0 && productRepository.count() == 0) {
+
+        // Create outsourced parts
         OutsourcedPart op1 = new OutsourcedPart();
         op1.setCompanyName("Mike's Wheels");
         op1.setName("Wheels");
         op1.setInv(100);
         op1.setPrice(1.00);
-        op1.setId(110L);
+        op1.setId(110);
         outsourcedPartRepository.save(op1);
-        OutsourcedPart theOutPart=null;
-        outsourcedParts=(List<OutsourcedPart>) outsourcedPartRepository.findAll();
-        for(OutsourcedPart part:outsourcedParts){
-            if(part.getName().equals("Wheels"))theOutPart=part;
-        }
-
-        System.out.println(theOutPart.getCompanyName());
-
 
         OutsourcedPart op2 = new OutsourcedPart();
         op2.setCompanyName("Skateboard Place");
         op2.setName("Trucks");
         op2.setInv(60);
         op2.setPrice(4.00);
-        op2.setId(120L);
+        op2.setId(120);
         outsourcedPartRepository.save(op2);
-        theOutPart=null;
-        outsourcedParts=(List<OutsourcedPart>) outsourcedPartRepository.findAll();
-        for(OutsourcedPart part:outsourcedParts){
-            if(part.getName().equals("Trucks"))theOutPart=part;
+
+        List<OutsourcedPart> outsourcedParts = (List<OutsourcedPart>) outsourcedPartRepository.findAll();
+        for (OutsourcedPart part : outsourcedParts) {
+            System.out.println(part.getName() + " " + part.getCompanyName());
         }
 
-        System.out.println(theOutPart.getCompanyName());
-
-        outsourcedParts=(List<OutsourcedPart>) outsourcedPartRepository.findAll();
-        for(OutsourcedPart part:outsourcedParts){
-            System.out.println(part.getName()+" "+part.getCompanyName());
-        }
-
-        List<InhousePart> inhouseParts = (List<InhousePart>) inhousePartRepository.findAll();
-
+        // Create in house parts
         InhousePart ip1 = new InhousePart();
         ip1.setName("Grip Tape");
         ip1.setInv(50);
         ip1.setPrice(3.00);
-        ip1.setId(130L);
+        ip1.setId(130);
         inhousePartRepository.save(ip1);
-        InhousePart thePart=null;
-        inhouseParts=(List<InhousePart>) inhousePartRepository.findAll();
-        for(InhousePart part:inhouseParts){
-            if(part.getName().equals("Grip Tape"))thePart=part;
-        }
 
         InhousePart ip2 = new InhousePart();
         ip2.setName("Truck Bolts");
         ip2.setInv(100);
         ip2.setPrice(1.00);
-        ip2.setId(102L);
+        ip2.setId(140);
         inhousePartRepository.save(ip2);
-        thePart=null;
-        inhouseParts=(List<InhousePart>) inhousePartRepository.findAll();
-        for(InhousePart part:inhouseParts){
-            if(part.getName().equals("Truck Bolts"))thePart=part;
-        }
+
 
         InhousePart ip3 = new InhousePart();
         ip3.setName("Deck");
         ip3.setInv(50);
         ip3.setPrice(6.00);
-        ip3.setId(140L);
+        ip3.setId(150);
         inhousePartRepository.save(ip3);
-        thePart=null;
-        inhouseParts=(List<InhousePart>) inhousePartRepository.findAll();
-        for(InhousePart part:inhouseParts){
-            if(part.getName().equals("Deck"))thePart=part;
-        }
 
-        inhouseParts=(List<InhousePart>) inhousePartRepository.findAll();
+
+        List<InhousePart> inhouseParts = (List<InhousePart>) inhousePartRepository.findAll();
         for(InhousePart part:inhouseParts){
             System.out.println(part.getName()+" "+part.getId());
         }
 ```
-Line 127 - 137: Added 5 new products to the repository.
+Line 101 - 111: Added 5 new products to the repository.
 
 ```
 Product flaming_board= new Product("Flaming Board",50.00,20);

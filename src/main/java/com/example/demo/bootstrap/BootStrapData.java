@@ -42,83 +42,57 @@ public class BootStrapData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        List<OutsourcedPart> outsourcedParts = (List<OutsourcedPart>) outsourcedPartRepository.findAll();
 
+
+        if (partRepository.count() == 0 && outsourcedPartRepository.count() == 0 && productRepository.count() == 0) {
+
+        // Create outsourced parts
         OutsourcedPart op1 = new OutsourcedPart();
         op1.setCompanyName("Mike's Wheels");
         op1.setName("Wheels");
         op1.setInv(100);
         op1.setPrice(1.00);
-        op1.setId(110L);
+        op1.setId(110);
         outsourcedPartRepository.save(op1);
-        OutsourcedPart theOutPart=null;
-        outsourcedParts=(List<OutsourcedPart>) outsourcedPartRepository.findAll();
-        for(OutsourcedPart part:outsourcedParts){
-            if(part.getName().equals("Wheels"))theOutPart=part;
-        }
-
-        System.out.println(theOutPart.getCompanyName());
-
 
         OutsourcedPart op2 = new OutsourcedPart();
         op2.setCompanyName("Skateboard Place");
         op2.setName("Trucks");
         op2.setInv(60);
         op2.setPrice(4.00);
-        op2.setId(120L);
+        op2.setId(120);
         outsourcedPartRepository.save(op2);
-        theOutPart=null;
-        outsourcedParts=(List<OutsourcedPart>) outsourcedPartRepository.findAll();
-        for(OutsourcedPart part:outsourcedParts){
-            if(part.getName().equals("Trucks"))theOutPart=part;
+
+        List<OutsourcedPart> outsourcedParts = (List<OutsourcedPart>) outsourcedPartRepository.findAll();
+        for (OutsourcedPart part : outsourcedParts) {
+            System.out.println(part.getName() + " " + part.getCompanyName());
         }
 
-        System.out.println(theOutPart.getCompanyName());
-
-        outsourcedParts=(List<OutsourcedPart>) outsourcedPartRepository.findAll();
-        for(OutsourcedPart part:outsourcedParts){
-            System.out.println(part.getName()+" "+part.getCompanyName());
-        }
-
-        List<InhousePart> inhouseParts = (List<InhousePart>) inhousePartRepository.findAll();
-
+        // Create in house parts
         InhousePart ip1 = new InhousePart();
         ip1.setName("Grip Tape");
         ip1.setInv(50);
         ip1.setPrice(3.00);
-        ip1.setId(130L);
+        ip1.setId(130);
         inhousePartRepository.save(ip1);
-        InhousePart thePart=null;
-        inhouseParts=(List<InhousePart>) inhousePartRepository.findAll();
-        for(InhousePart part:inhouseParts){
-            if(part.getName().equals("Grip Tape"))thePart=part;
-        }
 
         InhousePart ip2 = new InhousePart();
         ip2.setName("Truck Bolts");
         ip2.setInv(100);
         ip2.setPrice(1.00);
-        ip2.setId(102L);
+        ip2.setId(140);
         inhousePartRepository.save(ip2);
-        thePart=null;
-        inhouseParts=(List<InhousePart>) inhousePartRepository.findAll();
-        for(InhousePart part:inhouseParts){
-            if(part.getName().equals("Truck Bolts"))thePart=part;
-        }
+
 
         InhousePart ip3 = new InhousePart();
         ip3.setName("Deck");
         ip3.setInv(50);
         ip3.setPrice(6.00);
-        ip3.setId(140L);
+        ip3.setId(150);
         inhousePartRepository.save(ip3);
-        thePart=null;
-        inhouseParts=(List<InhousePart>) inhousePartRepository.findAll();
-        for(InhousePart part:inhouseParts){
-            if(part.getName().equals("Deck"))thePart=part;
-        }
 
-        inhouseParts=(List<InhousePart>) inhousePartRepository.findAll();
+
+        List<InhousePart> inhouseParts = (List<InhousePart>) inhousePartRepository.findAll();
         for(InhousePart part:inhouseParts){
             System.out.println(part.getName()+" "+part.getId());
         }
@@ -142,6 +116,10 @@ public class BootStrapData implements CommandLineRunner {
         System.out.println(productRepository.findAll());
         System.out.println("Number of Parts" + partRepository.count());
         System.out.println(partRepository.findAll());
+
+        }
+
+
 
 
     }

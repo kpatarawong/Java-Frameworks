@@ -363,6 +363,8 @@ Filename: application.properties
 
 Line 6: Update data source
 
+`spring.datasource.url=jdbc:h2:file:~/skateboard-db119`
+
 Modify the code to enforce that the inventory is between or at the minimum and maximum value.
 
 Create 2 Validators for Max and Min inventory

@@ -26,7 +26,7 @@ Line 53: Changed header for “Products” to “Skateboards”
 
 `<h2>Skateboards</h2>`
 
-### D.  Add an “About” page to the application to describe your chosen customer’s company to web viewers and include navigation to and from the “About” page and the main screen.**
+#### D.  Add an “About” page to the application to describe your chosen customer’s company to web viewers and include navigation to and from the “About” page and the main screen.**
 
 Filename: mainscreen.html
 

@@ -633,3 +633,9 @@ assertEquals(max_inv,partOut.getMaxInv());
 }
 ```
 ### J.  Remove the class files for any unused validators in order to clean your code.**
+
+Deleted unused validator:
+
+Filename: DeletePartValidator.java
+
+Filename: ValidDeletePart.java

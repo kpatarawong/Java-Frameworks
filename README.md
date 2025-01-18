@@ -251,11 +251,206 @@ private ProductRepository productRepository;
 ```
 
 ### G.  Modify the parts to track maximum and minimum inventory
-•  Add additional fields to the part entity for maximum and minimum inventory.
-•  Modify the sample inventory to include the maximum and minimum fields.
-•  Add to the InhousePartForm and OutsourcedPartForm forms additional text inputs for the inventory so the user can set the maximum and minimum values.
-•  Rename the file the persistent storage is saved to.
-•  Modify the code to enforce that the inventory is between or at the minimum and maximum value.
+
+Modify the parts to track maximum and minimum inventory
+
+Filename: Part
+
+Line 33 – 36: Add parts to track maximum and minimum inventory
+
+`@Min(value = 0, message = "Min Inventory value must be positive")
+int minInv;`
+
+`@Min(value = 0, message = "Max Inventory value must be positive")
+int maxInv;`
+
+Line 89 – 103: Add Set and Get for maximum and minimum inventory
+
+```
+public int getMinInv() {
+    return minInv;
+}
+
+public void setMinInv(int minInv) {
+this.minInv = minInv;
+    }
+
+public int getMaxInv() {
+   return maxInv;
+    }
+
+public void setMaxInv(int maxInv) {
+    this.maxInv = maxInv;
+    }
+```
+
+Add additional fields to the part entity for maximum and minimum inventory.
+
+Filename: mainscreen.html
+
+Line: 38 – 39: Add maximum and minimum to table header
+
+`<th>Min Inventory</th>`
+`<th>Max Inventory</th>`
+
+Line 48 – 49: Add maximum and minimum to table
+
+`<td th:text="${tempPart.minInv}">1</td>`
+`<td th:text="${tempPart.maxInv}">1</td>`
+
+Modify the sample inventory to include the maximum and minimum fields.
+
+Filename: BootStrapData
+
+Line 56 – 56, 66 - 67, 81 – 82 , 90 - 91, 100 – 101: Add min and max inventory to all 5 parts.
+
+`setMinInv(1);
+setMaxInv(70);`
+
+Add to the InhousePartForm and OutsourcedPartForm forms additional text inputs for the inventory so the user can set the maximum and minimum values.
+
+Filename: OutsourcedPartForm.html
+
+Line 17, 19, 22, 25: Add “Part Name”, “Price”, “Inventory”, and “Company Name” titles to fields
+```
+<p>Part Name: <input type="text" th:field="*{name}" placeholder="Name" class="form-control mb-4 col-4"/></p>
+
+<p>Price: <input type="text" th:field="*{price}" placeholder= "Price" class="form-control mb-4 col-4"/></p>
+    <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price Error</p>
+
+<p>Inventory: <input type="text" th:field="*{inv}" placeholder="Inventory" class="form-control mb-4 col-4"/></p>
+    <p th:if="${#fields.hasErrors('inv')}" th:errors="*{inv}">Inventory Error</p>
+
+    <p>Company Name: <input type="text" th:field="*{companyName}" placeholder="Company Name" class="form-control mb-4 col-4"/></p>
+```
+
+Line 27 – 31: Add additional text inputs for the inventory so the user can set the maximum and minimum values.
+```
+<p>Min Inventory: <input type="text" th:field="*{minInv}" placeholder="Inventory" class="form-control mb-4 col-4"/></p>
+    <p th:if="${#fields.hasErrors('minInv')}" th:errors="*{minInv}">Min Inventory Error</p>
+
+    <p>Max Inventory: <input type="text" th:field="*{maxInv}" placeholder="Inventory" class="form-control mb-4 col-4"/></p>
+    <p th:if="${#fields.hasErrors('maxInv')}" th:errors="*{maxInv}">Max Inventory Error</p>
+```
+
+Filename: InhousePartForm.html
+
+Line 17, 19, 22, 25: Add “Part Name”, “Price”, “Inventory”, and “Company Name” titles to fields
+```
+ <p>Part Name: <input type="text" th:field="*{name}" placeholder="Name" class="form-control mb-4 col-4"/></p>
+
+<p>Price: <input type="text" path="price" th:field="*{price}" placeholder= "Price" class="form-control mb-4 col-4"/></p>
+<p th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price Error</p>
+
+<p>Inventory: <input type="text" path="inv" th:field="*{inv}" placeholder="Inventory" class="form-control mb-4 col-4"/></p>
+    <p th:if="${#fields.hasErrors('inv')}" th:errors="*{inv}">Inventory Error</p>
+
+    <p>Part ID: <input type="text" th:field="*{partId}" placeholder="Part ID" class="form-control mb-4 col-4"/></p>
+```
+
+Line 27 – 31: Add additional text inputs for the inventory so the user can set the maximum and minimum values.
+```
+<p>Min Inventory: <input type="text" th:field="*{minInv}" placeholder="Inventory" class="form-control mb-4 col-4"/></p>
+    <p th:if="${#fields.hasErrors('minInv')}" th:errors="*{minInv}">Min Inventory Error</p>
+
+    <p>Max Inventory: <input type="text" th:field="*{maxInv}" placeholder="Inventory" class="form-control mb-4 col-4"/></p>
+    <p th:if="${#fields.hasErrors('maxInv')}" th:errors="*{maxInv}">Max Inventory Error</p>
+```
+
+Rename the file the persistent storage is saved to.
+
+Filename: application.properties
+
+Line 6: Update data source
+
+Modify the code to enforce that the inventory is between or at the minimum and maximum value.
+
+Create 2 Validators for Max and Min inventory
+
+File Path: src/main/java/com.example.demo/validator/InventoryValidator
+```
+package com.example.demo.validators;
+
+import com.example.demo.domain.Part;
+import com.example.demo.domain.Product;
+import com.example.demo.service.ProductService;
+import com.example.demo.service.ProductServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+
+/**
+*
+*
+*
+*
+*/
+public class InventoryValidator implements ConstraintValidator<ValidInventory, Part> {
+
+    @Override
+    public void initialize(ValidInventory constraintAnnotation) {
+        //ConstraintValidator.super.initialize(constraintAnnotation);
+    }
+
+    @Override
+    public boolean isValid(Part part, ConstraintValidatorContext constraintValidatorContext) {
+
+        //Create code to make sure that inventory is between min and max value
+        if(part.getInv() > part.getMaxInv())
+        {
+            //display error message when inventory is greater than max
+            constraintValidatorContext.buildConstraintViolationWithTemplate("Solution: Fix your Inventory, it is greater than the max inventory.").addConstraintViolation();
+            return false;
+        }
+
+        if(part.getInv() < part.getMinInv())
+        {
+            //display error message when inventory is greater than max
+            constraintValidatorContext.buildConstraintViolationWithTemplate("Solution: Fix your Inventory, it is less than the min inventory.").addConstraintViolation();
+            return false;
+        }
+        
+                return true;
+
+    }
+}
+```
+
+File Path: src/main/java/com.example.demo/validator/ValidInventory
+```
+package com.example.demo.validators;
+
+import javax.validation.Constraint;
+import javax.validation.Payload;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+*
+*
+*
+*
+*/
+@Constraint(validatedBy = {InventoryValidator.class})
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ValidInventory {
+String message() default "Inventory Error";
+Class<?> [] groups() default {};
+Class<? extends Payload> [] payload() default {};
+
+}
+```
+
+Filename: Part
+
+Line 23: Add Valid Inventory validator
+
+`@ValidInventory`
 
 
 ### H.  Add validation for between or at the maximum and minimum fields. The validation must include the following:

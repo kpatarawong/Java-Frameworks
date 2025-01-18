@@ -264,7 +264,7 @@ int minInv;`
 `@Min(value = 0, message = "Max Inventory value must be positive")
 int maxInv;`
 
-Line 89 – 103: Add Set and Get for maximum and minimum inventory
+Line 101 – 115: Add Set and Get for maximum and minimum inventory
 
 ```
 public int getMinInv() {

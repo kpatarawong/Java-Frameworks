@@ -90,6 +90,14 @@ public abstract class Part implements Serializable {
         this.inv = inv;
     }
 
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
+
     public int getMinInv() {
         return minInv;
     }
@@ -106,13 +114,7 @@ public abstract class Part implements Serializable {
         this.maxInv = maxInv;
     }
 
-    public Set<Product> getProducts() {
-        return products;
-    }
 
-    public void setProducts(Set<Product> products) {
-        this.products = products;
-    }
 
     public String toString(){
         return this.name;

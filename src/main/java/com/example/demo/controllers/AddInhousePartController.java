@@ -25,30 +25,33 @@ import javax.validation.Valid;
  *
  */
 @Controller
-public class AddInhousePartController{
+public class AddInhousePartController {
     @Autowired
     private ApplicationContext context;
 
     @GetMapping("/showFormAddInPart")
-    public String showFormAddInhousePart(Model theModel){
-        InhousePart inhousepart=new InhousePart();
-        theModel.addAttribute("inhousepart",inhousepart);
+    public String showFormAddInhousePart(Model theModel) {
+        InhousePart inhousepart = new InhousePart();
+        theModel.addAttribute("inhousepart", inhousepart);
         return "InhousePartForm";
     }
 
     @PostMapping("/showFormAddInPart")
-    public String submitForm(@Valid @ModelAttribute("inhousepart") InhousePart part, BindingResult theBindingResult, Model theModel){
-        theModel.addAttribute("inhousepart",part);
-        if(theBindingResult.hasErrors()){
-            return "InhousePartForm";
-        }
-        else{
-        InhousePartService repo=context.getBean(InhousePartServiceImpl.class);
-        InhousePart ip=repo.findById((int)part.getId());
-        if(ip!=null)part.setProducts(ip.getProducts());
-            repo.save(part);
+    public String submitForm(@Valid @ModelAttribute("inhousepart") InhousePart part, BindingResult theBindingResult, Model theModel) {
+        theModel.addAttribute("inhousepart", part);
 
-        return "confirmationaddpart";}
+
+
+            if (theBindingResult.hasErrors()) {
+                return "InhousePartForm";
+            } else {
+                InhousePartService repo = context.getBean(InhousePartServiceImpl.class);
+                InhousePart ip = repo.findById((int) part.getId());
+                if (ip != null) part.setProducts(ip.getProducts());
+                repo.save(part);
+
+                return "confirmationaddpart";
+            }
+        }
     }
 
-}

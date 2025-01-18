@@ -454,10 +454,141 @@ Line 23: Add Valid Inventory validator
 
 
 ### H.  Add validation for between or at the maximum and minimum fields. The validation must include the following:
-•  Display error messages for low inventory when adding and updating parts if the inventory is less than the minimum number of parts.
-•  Display error messages for low inventory when adding and updating products lowers the part inventory below the minimum.
-•  Display error messages when adding and updating parts if the inventory is greater than the maximum.
 
+Create 4 new files MinimumValidator, ValidMinimum, MaximumValidator, and ValidMaximum, and display error messages for Maximum/Minimum fields.
+
+Filename: MinimumValidator
+```
+package com.example.demo.validators;
+
+import com.example.demo.domain.Part;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+
+/**
+*
+*
+*
+*
+*/
+public class MinimumValidator implements ConstraintValidator<ValidMinimum, Part> {
+@Autowired
+private ApplicationContext context;
+public static ApplicationContext myContext;
+
+    @Override
+    public void initialize(ValidMinimum constraintAnnotation) {
+        ConstraintValidator.super.initialize(constraintAnnotation);
+    }
+
+    @Override
+    public boolean isValid(Part part, ConstraintValidatorContext constraintValidatorContext) {
+        return part.getInv() > part.getMinInv();
+    }
+
+}
+```
+
+Filename: ValidMinimum
+```
+package com.example.demo.validators;
+
+import javax.validation.Constraint;
+import javax.validation.Payload;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+*
+*
+*
+*
+*/
+@Constraint(validatedBy = {MinimumValidator.class})
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ValidMinimum {
+String message() default "Part count falls below set minimum";
+Class<?> [] groups() default {};
+Class<? extends Payload> [] payload() default {};
+}
+```
+
+Filename: MaximumValidator
+```
+package com.example.demo.validators;
+
+import com.example.demo.domain.Part;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+
+/**
+*
+*
+*
+*
+*/
+public class MaximumValidator implements ConstraintValidator<ValidMaximum, Part> {
+@Autowired
+private ApplicationContext context;
+public static ApplicationContext myContext;
+
+    @Override
+    public void initialize(ValidMaximum constraintAnnotation) {
+        ConstraintValidator.super.initialize(constraintAnnotation);
+    }
+
+    @Override
+    public boolean isValid(Part part, ConstraintValidatorContext constraintValidatorContext) {
+        return part.getInv() <= part.getMaxInv();
+    }
+}
+```
+
+Filename: ValidMaximum
+```
+package com.example.demo.validators;
+
+import com.example.demo.validators.MaximumValidator;
+
+import javax.validation.Constraint;
+import javax.validation.Payload;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+*
+*
+*
+*
+*/
+@Constraint(validatedBy = {MaximumValidator.class})
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ValidMaximum {
+String message() default "Part count is above set maximum";
+Class<?> [] groups() default {};
+Class<? extends Payload> [] payload() default {};
+}
+```
+Modify domain model class files to apply minimum and maximum validator
+
+Filename: Part
+
+Line: 26 -27
+
+`@ValidMinimum`
+`@ValidMaximum`
 
 ### I.  Add at least two unit tests for the maximum and minimum fields to the PartTest class in the test package.
 

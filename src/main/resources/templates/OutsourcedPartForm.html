@@ -10,6 +10,9 @@
 <h1>Outsourced Part Detail</h1>
 
 <form action="#" th:action="@{/showFormAddOutPart}" th:object="${outsourcedpart}" method="POST"}>
+    <div class="error-message" th:if="${errorMessage}">
+        <p th:text="${errorMessage}"></p>
+    </div>
 
 <!-- Add hidden form field to handle update -->
     <p><input type="hidden" th:field="*{id}"/></p>
@@ -24,17 +27,15 @@
 
     <p>Company Name: <input type="text" th:field="*{companyName}" placeholder="Company Name" class="form-control mb-4 col-4"/></p>
 
-    <p>Min Inventory: <input type="text" th:field="*{minInv}" placeholder="Inventory" class="form-control mb-4 col-4"/></p>
+    <p>Min Inventory: <input type="text" th:field="*{minInv}" placeholder="Minimum Inventory" class="form-control mb-4 col-4"/></p>
     <p th:if="${#fields.hasErrors('minInv')}" th:errors="*{minInv}">Min Inventory Error</p>
 
-    <p>Max Inventory: <input type="text" th:field="*{maxInv}" placeholder="Inventory" class="form-control mb-4 col-4"/></p>
+    <p>Max Inventory: <input type="text" th:field="*{maxInv}" placeholder="Maximum Inventory" class="form-control mb-4 col-4"/></p>
     <p th:if="${#fields.hasErrors('maxInv')}" th:errors="*{maxInv}">Max Inventory Error</p>
 
-    <div th:if="${#fields.hasAnyErrors()}">
+    <div th:if="${#fields.hasErrors()}">
         <ul>
-            <li th:each="err: ${#fields.allErrors()}"th:text="${err}">
-
-            </li>
+            <li th:each="err : ${#fields.allErrors()}" th:text="${err}" class="error"/>
         </ul>
     </div>
 

@@ -2,10 +2,10 @@ Kalvin Patarawong
 
 Student# 009931191
 
-# WESTERN GOVERNORS UNIVERSITY 
+# WESTERN GOVERNORS UNIVERSITY
 ## D287 – JAVA FRAMEWORKS
 
-#### C.  Customize the HTML user interface for your customer’s application. The user interface should include the shop name, the product names, and the names of the parts.**
+### C.  Customize the HTML user interface for your customer’s application. The user interface should include the shop name, the product name, and the names of the parts.**
 
 Filename: mainscreen.html
 
@@ -36,15 +36,17 @@ Line 20: Add a link to the About page just below the page title
 
 Filename: MainScreenController.java
 
-Lines 58-60: Add controller @Getmapping to enable access to About page
+Lines 58-60: Add controller @Getmapping to enable access to about page.
 
 `@GetMapping("/about")
 public String about() {
 return "about";`
 
+Add About Page
+
 File name: about.html
 
-Lines 1 – 34: Add about.html page with HTML styling and layout copied from mainscreen’s styling
+Lines 1 – 34: Create an about.html page with HTML styling and layout copied from mainscreen.html.
 
 ```
 <!DOCTYPE html>
@@ -84,21 +86,25 @@ Lines 1 – 34: Add about.html page with HTML styling and layout copied from mai
 
 ### E.  Add a sample inventory appropriate for your chosen store to the application. You should have five parts and five products in your sample inventory and should not overwrite existing data in the database.**
 
-Line 43 – 98: Added 5 new parts to the repository.
+Filename: BootStrapData.java
+
+Line 43 – 108: Add 5 sample inventories, 2 outsourced and 3 In-house.
 ```
 @Override
-    public void run(String... args) throws Exception {
+public void run(String... args) throws Exception {
 
-        
-        if (partRepository.count() == 0 && outsourcedPartRepository.count() == 0 && productRepository.count() == 0) {
+    if (partRepository.count() == 0 && outsourcedPartRepository.count() == 0 && productRepository.count() == 0) {
+
 
         // Create outsourced parts
         OutsourcedPart op1 = new OutsourcedPart();
         op1.setCompanyName("Mike's Wheels");
         op1.setName("Wheels");
-        op1.setInv(100);
+        op1.setInv(60);
         op1.setPrice(1.00);
         op1.setId(110);
+        op1.setMinInv(1);
+        op1.setMaxInv(100);
         outsourcedPartRepository.save(op1);
 
         OutsourcedPart op2 = new OutsourcedPart();
@@ -107,6 +113,8 @@ Line 43 – 98: Added 5 new parts to the repository.
         op2.setInv(60);
         op2.setPrice(4.00);
         op2.setId(120);
+        op2.setMinInv(1);
+        op2.setMaxInv(100);
         outsourcedPartRepository.save(op2);
 
         List<OutsourcedPart> outsourcedParts = (List<OutsourcedPart>) outsourcedPartRepository.findAll();
@@ -120,13 +128,17 @@ Line 43 – 98: Added 5 new parts to the repository.
         ip1.setInv(50);
         ip1.setPrice(3.00);
         ip1.setId(130);
+        ip1.setMinInv(1);
+        ip1.setMaxInv(100);
         inhousePartRepository.save(ip1);
 
         InhousePart ip2 = new InhousePart();
         ip2.setName("Truck Bolts");
-        ip2.setInv(100);
+        ip2.setInv(60);
         ip2.setPrice(1.00);
         ip2.setId(140);
+        ip2.setMinInv(1);
+        ip2.setMaxInv(100);
         inhousePartRepository.save(ip2);
 
 
@@ -135,15 +147,18 @@ Line 43 – 98: Added 5 new parts to the repository.
         ip3.setInv(50);
         ip3.setPrice(6.00);
         ip3.setId(150);
+        ip3.setMinInv(1);
+        ip3.setMaxInv(100);
         inhousePartRepository.save(ip3);
 
 
         List<InhousePart> inhouseParts = (List<InhousePart>) inhousePartRepository.findAll();
-        for(InhousePart part:inhouseParts){
-            System.out.println(part.getName()+" "+part.getId());
+        for (InhousePart part : inhouseParts) {
+            System.out.println(part.getName() + " " + part.getId());
         }
+
 ```
-Line 101 - 111: Added 5 new products to the repository.
+Line 111 - 121: Add 5 new products to the repository.
 
 ```
 Product flaming_board= new Product("Flaming Board",50.00,20);
@@ -159,6 +174,12 @@ Product dragon_board= new Product("Dragon Board",50.00,20);
         productRepository.save(dragon_board);        
 ```
 
+Line 46: Add an if statement to prevent parts and product duplications.
+
+```
+if (partRepository.count() == 0 && outsourcedPartRepository.count() == 0 && productRepository.count() == 0) {
+```
+
 ### F.  Add a “Buy Now” button to your product list.
 
 Filename: mainscreen.html
@@ -169,7 +190,10 @@ Line 85: Create Buy Now button next to Product Add and Delete
 
 Create 3 New Files
 
-File Path: src/main/resources/templates/confirmationbuysuccess.html Simple view with a success message.
+New Filename 1:confirmationbuysuccess.html
+
+Line 1 – 13: Added a new HTML file to give a message confirming the buy was successful.
+
 ```
 <!DOCTYPE html>
 <html lang="en">
@@ -186,7 +210,10 @@ to Main Screen</a>
 </html>
 ```
 
-File Path: src/main/resources/templates/confirmationbuyfailure.html Simple view with a failure message.
+New Filename 2:confirmationbuyfailure.html
+
+Line 1 – 13: Added a new HTML file to give an error message if the product is out of stock.
+
 ```
 <!DOCTYPE html>
 <html lang="en">
@@ -202,7 +229,11 @@ to Main Screen</a>
 </body>
 </html>
 ```
-File Path src/com.example.demo/controllers/BuyProductController Added the buyProduct method. If the inventory of the item is > 0, decrements the inventory by 1 and redirects to confirmationbuyproduct.html, otherwise, redirects to failedbuyproduct.html.
+
+New Filename 3: BuyProductController.java
+
+Line 1 – 44: Add a controller to decrease the inventory of products by 1 when the buy is successful.
+
 ```
 packagecom.example.demo.controllers;
 
@@ -254,9 +285,9 @@ private ProductRepository productRepository;
 
 Modify the parts to track maximum and minimum inventory
 
-Filename: Part
+Filename: Part.java
 
-Line 33 – 36: Add parts to track maximum and minimum inventory
+Line 37 – 39: Add minInv and maxInv variable using @Min annotation.
 
 `@Min(value = 0, message = "Min Inventory value must be positive")
 int minInv;`
@@ -264,7 +295,28 @@ int minInv;`
 `@Min(value = 0, message = "Max Inventory value must be positive")
 int maxInv;`
 
-Line 101 – 115: Add Set and Get for maximum and minimum inventory
+Line 53 – 54 and 62-63: Add minimum and maximum inventory to default(0,100).
+
+```
+public Part(String name, double price, int inv) {
+    this.name = name;
+    this.price = price;
+    this.inv = inv;
+    this.minInv = 0; //default minimum inventory = 0;
+    this.maxInv = 100; //default minimum inventory = 100;
+}
+
+public Part(long id, String name, double price, int inv) {
+    this.id = id;
+    this.name = name;
+    this.price = price;
+    this.inv = inv;
+    this.minInv = minInv;  //setting default value
+    this.maxInv = maxInv; //setting default value
+}
+```
+
+Line 98 – 112: Add 4 new Setter and Getter for maximum and minimum inventory
 
 ```
 public int getMinInv() {
@@ -284,7 +336,66 @@ public void setMaxInv(int maxInv) {
     }
 ```
 
-Add additional fields to the part entity for maximum and minimum inventory.
+Filename: InhousePart.java
+
+Line 18-19: Add min and max inventory values to make sure a default is set.
+
+```
+public InhousePart() {
+        this.minInv = 0;
+        this.maxInv = 100;
+    }
+```
+
+Filename: OutsourcedPart.java
+
+Line 18-19: Add min and max inventory values to make sure a default is set.
+
+```
+public InhousePart() {
+        this.minInv = 0;
+        this.maxInv = 100;
+    }
+```
+
+Filename: Part.java
+
+Line 136 – 143: Create validateLimts() method for Part class. The method ensures that no inventory values can fall below or rise above the min and max set values. Further validators will be added in part H.
+```
+public void validateLimits() {
+        if (this.inv < this.minInv) {
+            throw new RuntimeException("This value falls below required minimum.");
+        } 
+        else if (this.inv > this.maxInv) {
+            throw new RuntimeException("This value exceeds the allowed maximum.");
+        }
+    }
+```
+
+Filename: PartServiceImpl.java
+
+Line 59: Add Call validateLimits (Part of the save method)
+```
+@Override
+public void save(Part thePart) {
+        thePart.validateLimits();
+        partRepository.save(thePart);
+
+}
+```
+Filename: InhousePartServiceImpl.java
+
+Line 54: Add Call validateLimits (Part of the save method)
+```
+@Override
+public void save(Part thePart) {
+        thePart.validateLimits();
+        partRepository.save(thePart);
+
+}
+```
+
+- Add additional fields to the part entity for maximum and minimum inventory.
 
 Filename: mainscreen.html
 
@@ -293,21 +404,21 @@ Line: 38 – 39: Add maximum and minimum to table header
 `<th>Min Inventory</th>`
 `<th>Max Inventory</th>`
 
-Line 48 – 49: Add maximum and minimum to table
+Line 48 – 49: Add maximum and minimum to table row (td)
 
 `<td th:text="${tempPart.minInv}">1</td>`
 `<td th:text="${tempPart.maxInv}">1</td>`
 
 Modify the sample inventory to include the maximum and minimum fields.
 
-Filename: BootStrapData
+Filename: BootStrapData.java
 
 Line 56 – 56, 66 - 67, 81 – 82 , 90 - 91, 100 – 101: Add min and max inventory to all 5 parts.
 
-`setMinInv(1);
-setMaxInv(70);`
+`veriable.setMinInv(0);`
+`veriable.setMaxInv(100);`
 
-Add to the InhousePartForm and OutsourcedPartForm forms additional text inputs for the inventory so the user can set the maximum and minimum values.
+- Add to the InhousePartForm and OutsourcedPartForm forms additional text inputs for the inventory so the user can set the maximum and minimum values.
 
 Filename: OutsourcedPartForm.html
 
@@ -357,7 +468,7 @@ Line 27 – 31: Add additional text inputs for the inventory so the user can set
     <p th:if="${#fields.hasErrors('maxInv')}" th:errors="*{maxInv}">Max Inventory Error</p>
 ```
 
-Rename the file the persistent storage is saved to.
+- Rename the file the persistent storage is saved to.
 
 Filename: application.properties
 
@@ -365,11 +476,14 @@ Line 6: Update data source
 
 `spring.datasource.url=jdbc:h2:file:~/skateboard-db119`
 
-Modify the code to enforce that the inventory is between or at the minimum and maximum value.
+- Modify the code to enforce that the inventory is between or at the minimum and maximum value.
 
 Create 2 Validators for Max and Min inventory
 
-File Path: src/main/java/com.example.demo/validator/InventoryValidator
+New Filename 1: InventoryValidator.java
+
+Line 1 – 18: Code to enforce that the inventory is between or at the minimum and maximum value.
+
 ```
 package com.example.demo.validators;
 
@@ -420,7 +534,10 @@ public class InventoryValidator implements ConstraintValidator<ValidInventory, P
 }
 ```
 
-File Path: src/main/java/com.example.demo/validator/ValidInventory
+New Filename 2: ValidInventory.java
+
+Line 1 - 24: Code to enforce that the inventory is between or at the minimum and maximum value.
+
 ```
 package com.example.demo.validators;
 
@@ -448,7 +565,7 @@ Class<? extends Payload> [] payload() default {};
 }
 ```
 
-Filename: Part
+Filename: Part.java
 
 Line 23: Add Valid Inventory validator
 
@@ -457,9 +574,12 @@ Line 23: Add Valid Inventory validator
 
 ### H.  Add validation for between or at the maximum and minimum fields. The validation must include the following:
 
-Create 4 new files MinimumValidator, ValidMinimum, MaximumValidator, and ValidMaximum, and display error messages for Maximum/Minimum fields.
+- Create 4 new files MinimumValidator, ValidMinimum, MaximumValidator, and ValidMaximum, and display error messages for Maximum/Minimum fields.
 
-Filename: MinimumValidator
+New Filename 1: MinimumValidator.java
+
+Line 1-31: Create Validators for Minimum.
+
 ```
 package com.example.demo.validators;
 
@@ -494,7 +614,10 @@ public static ApplicationContext myContext;
 }
 ```
 
-Filename: ValidMinimum
+New Filename 2: ValidMinimum.java
+
+Line 1 – 23: Minimum validator error message.
+
 ```
 package com.example.demo.validators;
 
@@ -521,7 +644,10 @@ Class<? extends Payload> [] payload() default {};
 }
 ```
 
-Filename: MaximumValidator
+New Filename 3: MaximumValidator
+
+Line 1-30: Create Validators for Maximum.
+
 ```
 package com.example.demo.validators;
 
@@ -555,7 +681,10 @@ public static ApplicationContext myContext;
 }
 ```
 
-Filename: ValidMaximum
+New Filename 4: ValidMaximum.java
+
+Line 1 – 25: Maximum validator error message.
+
 ```
 package com.example.demo.validators;
 
@@ -583,14 +712,64 @@ Class<?> [] groups() default {};
 Class<? extends Payload> [] payload() default {};
 }
 ```
-Modify domain model class files to apply minimum and maximum validator
+- Modify domain model class files to apply minimum and maximum validator
 
-Filename: Part
+Filename: Part.java
 
-Line: 26 -27
+Line 26 – 27: Add domain model class files to apply for minimum and maximum validator.
 
 `@ValidMinimum`
 `@ValidMaximum`
+
+Filename: EnufPartsValidator.java
+
+Line 36 – 40: Enforce minimum inventory by adding isValid method to check for minimum inventory. Added error message for insufficient inventory for part.
+
+```
+@Override
+public boolean isValid(Product product, ConstraintValidatorContext constraintValidatorContext) {
+    if(context==null) return true;
+    if(context!=null)myContext=context;
+    ProductService repo = myContext.getBean(ProductServiceImpl.class);
+    if (product.getId() != 0) {
+        Product myProduct = repo.findById((int) product.getId());
+        for (Part p : myProduct.getParts()) {
+            if (p.getInv() < (product.getInv() - myProduct.getInv())) {
+                constraintValidatorContext.disableDefaultConstraintViolation();
+                constraintValidatorContext.buildConstraintViolationWithTemplate("Insufficient inventory for part: " + p.getName()).addConstraintViolation();
+                return false;
+            }
+        }
+    }
+        return true;
+    }
+
+}
+```
+
+Filename: InhousePartForm.html
+
+Line 36 - 40: Ensure the error message displays within the form.
+
+```
+<div th:if="${#fields.hasErrors()}">
+    <ul>
+        <li th:each="err : ${#fields.allErrors()}" th:text="${err}" class="error"/>
+    </ul>
+</div>
+```
+
+Filename: OutsourcedPartForm.html
+
+Line 36 - 40: Ensure the error message displays within the form.
+
+```
+<div th:if="${#fields.hasErrors()}">
+    <ul>
+        <li th:each="err : ${#fields.allErrors()}" th:text="${err}" class="error"/>
+    </ul>
+</div>
+```
 
 ### I.  Add at least two unit tests for the maximum and minimum fields to the PartTest class in the test package.
 
@@ -641,3 +820,4 @@ Deleted unused validator:
 Filename: DeletePartValidator.java
 
 Filename: ValidDeletePart.java
+

@@ -44,4 +44,5 @@ public class InventoryValidator implements ConstraintValidator<ValidInventory, P
                 return true;
 
     }
+
 }

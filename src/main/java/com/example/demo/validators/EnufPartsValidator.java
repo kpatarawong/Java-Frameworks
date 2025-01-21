@@ -39,8 +39,8 @@ public class EnufPartsValidator implements ConstraintValidator<ValidEnufParts, P
                     return false;
                 }
             }
+        }
             return true;
         }
-        return false;
+
     }
-}

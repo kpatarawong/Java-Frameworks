@@ -9,17 +9,18 @@
 <!--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />-->
 </head>
 <body>
+
 <h1>Product Detail</h1>
 <form action="#" th:action="@{/showFormAddProduct}" th:object="${product}" method="POST"}>
     <!-- Add hidden form field to handle update -->
     <p><input type="hidden" th:field="*{id}"/></p>
 
-    <p><input type="text" th:field="*{name}" placeholder="Name" class="form-control mb-4 col-4"/></p>
+    <p>Name: <input type="text" th:field="*{name}" placeholder="Name" class="form-control mb-4 col-4"/></p>
 
-    <p><input type="text" th:field="*{price}" placeholder= "Price" class="form-control mb-4 col-4"/></p>
+    <p>Price: <input type="text" th:field="*{price}" placeholder= "Price" class="form-control mb-4 col-4"/></p>
 
 
-    <p><input type="text" th:field="*{inv}" placeholder="Inventory" class="form-control mb-4 col-4"/></p>
+    <p>Inventory: <input type="text" th:field="*{inv}" placeholder="Inventory" class="form-control mb-4 col-4"/></p>
 
     <p>
     <div th:if="${#fields.hasAnyErrors()}">
